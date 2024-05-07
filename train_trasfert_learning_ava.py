@@ -360,6 +360,7 @@ def train():
                               "loss_conf train":a,"loss_cls train":b,"loss_box train ":c,"losses train ":d })
                     # set train mode.
                     model_eval.trainable = True
+                    evaluator.loss_validation(model_eval, epoch + 1)
                     model_eval.train()
         
                 # save model
