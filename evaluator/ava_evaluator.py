@@ -217,7 +217,7 @@ class AVA_Evaluator(object):
             with torch.no_grad():
                 loss_dict_validation = model(batch_video_clip, targets=batch_target)
                 losses = loss_dict_validation['losses']
-                l.append(losses.items())
+                l.append(losses)
         print("losses validation a l'epoch ",epoch,"#################################################",sum(l)/len(l))
         return sum(l)/len(l)
                 
