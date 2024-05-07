@@ -324,10 +324,10 @@ def train():
                 for k in loss_dict_reduced.keys():
                     log += '[{}: {:.2f}]'.format(k, loss_dict[k])
                 l_dictio=list(loss_dict_reduced.keys())
-                a=loss_dict[l_dictio[0]].item()
-                b=loss_dict[l_dictio[1]].item() 
-                c=loss_dict[l_dictio[2]].item()
-                d=loss_dict[l_dictio[3]].item()
+                a=loss_dict[l_dictio[0]].cpu().item()
+                b=loss_dict[l_dictio[1]].cpu().item() 
+                c=loss_dict[l_dictio[2]].cpu().item()
+                d=loss_dict[l_dictio[3]].cpu().item()
                 
                 # other infor
                 log += '[time: {:.2f}]'.format(t1 - t0)
@@ -356,11 +356,12 @@ def train():
 
                     # evaluate
                     evaluator.evaluate_frame_map(model_eval, epoch + 1)
-                    wandb.log({"frame_map": evaluator.evaluate_frame_map(model_eval, epoch + 1),
-                              "loss_conf train":a,"loss_cls train":b,"loss_box train ":c,"losses train ":d })
+                    
                     # set train mode.
                     model_eval.trainable = True
-                    evaluator.loss_validation(model_eval, epoch + 1)
+                    h=evaluator.loss_validation(model_eval, epoch + 1)
+                    wandb.log({"frame_map": evaluator.evaluate_frame_map(model_eval, epoch + 1),
+                              "loss_conf train":a,"loss_cls train":b,"loss_box train ":c,"losses train ":d, "loss validation"h })
                     model_eval.train()
         
                 # save model
