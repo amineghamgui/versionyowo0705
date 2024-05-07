@@ -230,7 +230,7 @@ class AVA_Evaluator(object):
                 l_loss_cls.append(loss_cls.cpu().item())
                 l_loss_conf.append(loss_conf.cpu().item())
                 
-        print("losses validation a l'epoch ",epoch,"#################################################",sum(l)/len(l))
+        
         c_losses=sum(l_losses)/len(l_losses)
         c_loss_box=sum(l_loss_box)/len(l_loss_box)
         c_loss_cls=sum(l_loss_cls)/len(l_loss_cls)
