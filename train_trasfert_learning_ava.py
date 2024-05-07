@@ -362,7 +362,8 @@ def train():
                     h=evaluator.loss_validation(model_eval, epoch + 1)
                     print('a: ',type(a), a,"******************************************************","loss validation  ",h," type",type(h) )
                     wandb.log({"frame_map": g,
-                              "loss_conf__train":a,"loss_cls__train":b,"loss_box__train ":c,"losses__train ":d, "loss validation":h })
+                              "loss_conf__train":a,"loss_cls__train":b,"loss_box__train ":c,"losses__train ":d, "losses validation":h[0],
+                             "loss_conf__validation":h[3],"loss_cls__validation":h[2],"loss_box__validation":h[1] })
                     model_eval.train()
         
                 # save model
