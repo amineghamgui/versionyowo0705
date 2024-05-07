@@ -210,15 +210,31 @@ class AVA_Evaluator(object):
     
     
     def loss_validation(self,model,epoch):
-        l=[]
+        
+        l_losses=[]
+        l_loss_box=[]
+        l_loss_cls=[]
+        l_loss_conf=[]
         for iter_i, (_, batch_video_clip, batch_target) in enumerate(self.testloader):
             batch_video_clip = batch_video_clip.to(model.device)
             
             with torch.no_grad():
                 loss_dict_validation = model(batch_video_clip, targets=batch_target)
                 losses = loss_dict_validation['losses']
-                l.append(losses.cpu().item())
+                loss_box= loss_dict_validation['loss_box']
+                loss_cls=loss_dict_validation['loss_cls']
+                loss_conf=loss_dict_validation['loss_conf']
+                
+                l_losses.append(losses.cpu().item())
+                l_loss_box.append(loss_box.cpu().item())
+                l_loss_cls.append(loss_cls.cpu().item())
+                l_loss_conf.append(loss_conf.cpu().item())
+                
         print("losses validation a l'epoch ",epoch,"#################################################",sum(l)/len(l))
-        return sum(l)/len(l)
+        c_losses=sum(l_losses)/len(l_losses)
+        c_loss_box=sum(l_loss_box)/len(l_loss_box)
+        c_loss_cls=sum(l_loss_cls)/len(l_loss_cls)
+        c_loss_conf=sum(l_loss_conf)/len(l_loss_conf)
+        return c_losses,c_loss_box,c_loss_cls,c_loss_conf
                 
             
