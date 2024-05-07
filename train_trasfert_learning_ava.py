@@ -355,13 +355,13 @@ def train():
                     model_eval.eval()
 
                     # evaluate
-                    evaluator.evaluate_frame_map(model_eval, epoch + 1)
+                    g=evaluator.evaluate_frame_map(model_eval, epoch + 1)
                     
                     # set train mode.
                     model_eval.trainable = True
                     h=evaluator.loss_validation(model_eval, epoch + 1)
                     print('a: ',type(a), a,"******************************************************","loss validation  ",h )
-                    wandb.log({"frame_map": evaluator.evaluate_frame_map(model_eval, epoch + 1),
+                    wandb.log({"frame_map": g,
                               "loss_conf train":a,"loss_cls train":b,"loss_box train ":c,"losses train ":d, "loss validation":h })
                     model_eval.train()
         
